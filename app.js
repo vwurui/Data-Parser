@@ -309,12 +309,14 @@ function updateStats(targetId, items) {
   }, 0)
 
   const countLabel =
-    targetId === "withdrawStats" || targetId === "adminStats"
-      ? "Total Withdraw"
-      : targetId === "depositStats"
-        ? "Total Deposit"
-        : "Total baris"
-  const amountLabel = "Total Nominal"
+    targetId === "withdrawStats"
+      ? "Total Withdraw PGA"
+      : targetId === "adminStats"
+        ? "Total Withdraw"
+        : targetId === "depositStats"
+          ? "Total Deposit PGA"
+          : "Total baris"
+  const amountLabel = "Total Amount"
 
   $(targetId).innerHTML = `
     <div class="stat"><span>${countLabel}</span><strong>${items.length}</strong></div>
