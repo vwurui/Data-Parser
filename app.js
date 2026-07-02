@@ -119,7 +119,7 @@ function setTheme(theme) {
 
   try {
     localStorage.setItem("parser-theme", nextTheme)
-  } catch {}
+  } catch { }
 }
 
 function hexToRgbString(hex) {
@@ -137,7 +137,7 @@ function setAccentColor(color) {
   document.documentElement.style.setProperty("--custom-accent-rgb", hexToRgbString(hex))
   try {
     localStorage.setItem("parser-accent-color", hex)
-  } catch {}
+  } catch { }
 }
 
 function initMenuVisibility() {
@@ -170,7 +170,7 @@ function applyMenuVisibility() {
 
   try {
     localStorage.setItem("parser-hidden-menus", JSON.stringify(state.hiddenMenus))
-  } catch {}
+  } catch { }
 }
 
 function toggleMenuVisibility(tab, isVisible) {
@@ -202,7 +202,7 @@ function setStoredWdQrisLastPaidAt(ms) {
   try {
     if (ms == null) localStorage.removeItem("wdqris-last-paidat")
     else localStorage.setItem("wdqris-last-paidat", String(ms))
-  } catch {}
+  } catch { }
 }
 
 function parsePaidAt(value) {
@@ -392,7 +392,7 @@ function parseWithdraw() {
           bank: get(13),
           id: get(9),
           amount: get(15).replace(/^Rp\s*/i, ""),
-          name: get(11),
+          name: get(11).toUpperCase(),
           reff: /^TF_\d{6}_[A-Z0-9]{15,30}$/.test(refCandidate) ? refCandidate : "",
         })
         i = j
@@ -676,7 +676,7 @@ function parseAdmin() {
     if (trimmed.includes(",")) {
       const parts = trimmed.split(",").map((item) => item.trim())
       current.bank = parts[0] || current.bank
-      current.name = parts.slice(2).join(", ") || current.name
+      current.name = (parts.slice(2).join(", ") || current.name).toUpperCase()
     }
   })
 
