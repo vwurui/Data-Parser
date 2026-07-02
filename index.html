@@ -1,363 +1,329 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Parser Pro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css?v=20260629-12" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <aside class="sidebar glass">
-        <div class="brand">
-          <div class="brand-logo">TOPJITU.COM</div>
-        </div>
 
-        <nav class="nav">
-          <button class="nav-btn active" data-tab="withdraw">WITHDRAW PGA</button>
-          <button class="nav-btn" data-tab="deposit">DEPOSIT PGA</button>
-          <button class="nav-btn" data-tab="wdqris">WD QRIS</button>
-          <button class="nav-btn" data-tab="dpqris">DP QRIS</button>
-          <button class="nav-btn" data-tab="admin">WITHDRAW</button>
-          <button class="nav-btn" data-tab="cashback">CASHBACK</button>
-        </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Parser Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=20260629-12" />
+</head>
 
-        <div class="sidebar-controls">
-          <div class="theme-switch glass">
-            <button class="theme-btn active" id="darkModeBtn" type="button" aria-label="Dark mode">
-              <span class="theme-icon moon-icon"></span>
-            </button>
-            <button class="theme-btn" id="lightModeBtn" type="button" aria-label="Light mode">
-              <span class="theme-icon sun-icon"></span>
-            </button>
-          </div>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar glass">
+      <div class="brand">
+        <div class="brand-logo">TOPJITU.COM</div>
+      </div>
 
-          <label class="color-switch glass" aria-label="Warna custom">
-            <input id="accentColorInput" type="color" value="#f5d15f" />
-            <span class="color-icon"></span>
-          </label>
+      <nav class="nav">
+        <button class="nav-btn active" data-tab="withdraw">WITHDRAW PGA</button>
+        <button class="nav-btn" data-tab="deposit">DEPOSIT PGA</button>
+        <button class="nav-btn" data-tab="wdqris">WD QRIS</button>
+        <button class="nav-btn" data-tab="dpqris">DP QRIS</button>
+        <button class="nav-btn" data-tab="admin">WITHDRAW</button>
+        <button class="nav-btn" data-tab="cashback">CASHBACK</button>
+      </nav>
 
-          <button class="theme-btn glass" id="toggleMenuManagerBtn" type="button" aria-label="Atur menu">
-            <span class="manage-icon">☰</span>
+      <div class="sidebar-controls">
+        <div class="theme-switch glass">
+          <button class="theme-btn active" id="darkModeBtn" type="button" aria-label="Dark mode">
+            <span class="theme-icon moon-icon"></span>
+          </button>
+          <button class="theme-btn" id="lightModeBtn" type="button" aria-label="Light mode">
+            <span class="theme-icon sun-icon"></span>
           </button>
         </div>
 
-        <div class="menu-manager glass hidden" id="menuManager">
-          <div class="menu-manager-title">ATUR MENU</div>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="withdraw" checked />
-            <span>WITHDRAW PGA</span>
-          </label>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="deposit" checked />
-            <span>DEPOSIT PGA</span>
-          </label>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="wdqris" checked />
-            <span>WD QRIS</span>
-          </label>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="dpqris" checked />
-            <span>DP QRIS</span>
-          </label>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="admin" checked />
-            <span>WITHDRAW</span>
-          </label>
-          <label class="menu-toggle-row">
-            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="cashback" checked />
-            <span>CASHBACK</span>
-          </label>
+        <label class="color-switch glass" aria-label="Warna custom">
+          <input id="accentColorInput" type="color" value="#f5d15f" />
+          <span class="color-icon"></span>
+        </label>
+
+        <button class="theme-btn glass" id="toggleMenuManagerBtn" type="button" aria-label="Atur menu">
+          <span class="manage-icon">☰</span>
+        </button>
+      </div>
+
+      <div class="menu-manager glass hidden" id="menuManager">
+        <div class="menu-manager-title">ATUR MENU</div>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="withdraw" checked />
+          <span>WITHDRAW PGA</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="deposit" checked />
+          <span>DEPOSIT PGA</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="wdqris" checked />
+          <span>WD QRIS</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="dpqris" checked />
+          <span>DP QRIS</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="admin" checked />
+          <span>WITHDRAW</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="cashback" checked />
+          <span>CASHBACK</span>
+        </label>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="panel active" id="withdraw-panel">
+        <div class="card glass">
+          <textarea id="withdrawInput" class="textarea" placeholder="Tempel data withdraw mentah di sini..."></textarea>
+
+          <div class="actions">
+            <button class="btn primary" id="parseWithdrawBtn">PARSE DATA</button>
+            <button class="btn success" id="copyWithdrawBtn">COPY</button>
+            <button class="btn danger text-red" id="clearWithdrawBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="withdrawMessage" class="message-slot"></div>
         </div>
-      </aside>
 
-      <main class="main">
-        <section class="panel active" id="withdraw-panel">
-          <div class="card glass">
-            <textarea
-              id="withdrawInput"
-              class="textarea"
-              placeholder="Tempel data withdraw mentah di sini..."
-            ></textarea>
+        <div class="card glass hidden" id="withdrawResultCard">
+          <div class="stats" id="withdrawStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort-table="withdraw" data-sort-key="bank">Bank</th>
+                  <th data-sort-table="withdraw" data-sort-key="id">ID</th>
+                  <th></th>
+                  <th data-sort-table="withdraw" data-sort-key="amount">Nominal</th>
+                  <th data-sort-table="withdraw" data-sort-key="name">Name</th>
+                  <th data-sort-table="withdraw" data-sort-key="reff">Ref Number</th>
+                </tr>
+              </thead>
+              <tbody id="withdrawTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-            <div class="actions">
-              <button class="btn primary" id="parseWithdrawBtn">PARSE DATA</button>
-              <button class="btn success" id="copyWithdrawBtn">COPY</button>
-              <button class="btn danger text-red" id="clearWithdrawBtn">CLEAR ALL</button>
-            </div>
+      <section class="panel" id="wdqris-panel">
+        <div class="card glass">
+          <textarea id="wdQrisInput" class="textarea"
+            placeholder="Tempel data withdraw qris mentah di sini..."></textarea>
 
-            <div id="withdrawMessage" class="message-slot"></div>
+          <div class="wdqris-filters">
+            <input id="wdQrisLastTrxId" class="filter-input"
+              placeholder="TRANSACTION ID TERAKHIR (contoh: TOJI932614162)" autocomplete="off" />
           </div>
 
-          <div class="card glass hidden" id="withdrawResultCard">
-            <div class="section-head">
-              <div>
-                <h3>Parsed Data</h3>
-              </div>
-            </div>
+          <div class="actions">
+            <button class="btn primary" id="parseWdQrisBtn">PARSE DATA</button>
+            <button class="btn success" id="copyWdQrisMemberBtn">COPY ID AMOUNT</button>
+            <button class="btn success" id="copyWdQrisTransactionBtn">COPY TRANSACTION ID</button>
+            <button class="btn danger text-red" id="clearWdQrisBtn">CLEAR ALL</button>
+          </div>
 
-            <div class="stats" id="withdrawStats"></div>
+          <div id="wdQrisMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="wdQrisResultCard">
+          <div class="stats" id="wdQrisStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>AMOUNT</th>
+                  <th>TRANSACTION ID</th>
+                </tr>
+              </thead>
+              <tbody id="wdQrisTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="dpqris-panel">
+        <div class="card glass">
+          <textarea id="dpQrisInput" class="textarea"
+            placeholder="Tempel data deposit qris mentah di sini..."></textarea>
+
+          <div class="wdqris-filters">
+            <input id="dpQrisLastTrxId" class="filter-input"
+              placeholder="TRANSACTION ID TERAKHIR (contoh: TOJI932614162)" autocomplete="off" />
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="parseDpQrisBtn">PARSE DATA</button>
+            <button class="btn success" id="copyDpQrisIdAmountBtn">COPY PAID ID AMOUNT</button>
+            <button class="btn success" id="copyDpQrisTransactionBtn">COPY TRANSACTION ID</button>
+            <button class="btn danger text-red" id="clearDpQrisBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="dpQrisMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="dpQrisResultCard">
+          <div class="stats" id="dpQrisStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>PAID</th>
+                  <th>ID</th>
+                  <th>AMOUNT</th>
+                  <th>TRANSACTION ID</th>
+                </tr>
+              </thead>
+              <tbody id="dpQrisTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="deposit-panel">
+        <div class="card glass">
+          <label class="upload-box">
+            <input type="file" id="depositFile" accept=".csv" />
+            <span>PILIH FILE CSV</span>
+          </label>
+
+          <div class="actions hidden" id="depositActions">
+            <button class="btn success" id="copyDepositIdAmountBtn">COPY ID AMOUNT</button>
+            <button class="btn success" id="copyDepositRefBtn">COPY REF NUMBER</button>
+            <button class="btn danger text-red" id="clearDepositBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="depositMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="depositResultCard">
+          <div class="stats" id="depositStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort-table="deposit" data-sort-key="id">ID</th>
+                  <th data-sort-table="deposit" data-sort-key="amount">Nominal</th>
+                  <th data-sort-table="deposit" data-sort-key="refNumb">Ref Number</th>
+                </tr>
+              </thead>
+              <tbody id="depositTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="admin-panel">
+        <div class="card glass">
+          <textarea id="adminInput" class="textarea" placeholder="Tempel data withdraw mentah di sini..."></textarea>
+
+          <div class="actions">
+            <button class="btn primary" id="parseAdminBtn">PARSE ADMIN DATA</button>
+            <button class="btn success" id="copyAdminBtn">COPY</button>
+            <button class="btn danger text-red" id="clearAdminBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="adminMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="adminResultCard">
+          <div class="stats" id="adminStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort-table="admin" data-sort-key="bank">Bank</th>
+                  <th data-sort-table="admin" data-sort-key="id">ID</th>
+                  <th></th>
+                  <th data-sort-table="admin" data-sort-key="amount">Amount</th>
+                  <th data-sort-table="admin" data-sort-key="name">Name</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="cashback-panel">
+        <div class="card glass">
+          <label class="upload-box compact">
+            <input type="file" id="cashbackFile" accept=".csv" />
+            <span>PILIH FILE CSV</span>
+          </label>
+
+          <div class="actions hidden" id="cashbackActions">
+            <button class="btn danger text-red" id="clearCashbackBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="cashbackMessage" class="message-slot"></div>
+        </div>
+
+        <div class="cashback-grid hidden" id="cashbackGrid">
+          <article class="card glass cashback-card">
+            <div class="section-head inline">
+              <h3>Table 1</h3>
+              <button class="btn success small-copy" data-copy-cashback="0">COPY</button>
+            </div>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th data-sort-table="withdraw" data-sort-key="bank">Bank</th>
-                    <th data-sort-table="withdraw" data-sort-key="id">ID</th>
-                    <th></th>
-                    <th data-sort-table="withdraw" data-sort-key="amount">Nominal</th>
-                    <th data-sort-table="withdraw" data-sort-key="name">Name</th>
-                    <th data-sort-table="withdraw" data-sort-key="reff">Ref Number</th>
+                    <th>Pemain</th>
+                    <th>Player Menang Kalah</th>
                   </tr>
                 </thead>
-                <tbody id="withdrawTableBody"></tbody>
+                <tbody id="cashbackTable0"></tbody>
               </table>
             </div>
-          </div>
-        </section>
+          </article>
 
-        <section class="panel" id="wdqris-panel">
-          <div class="card glass">
-            <textarea
-              id="wdQrisInput"
-              class="textarea"
-              placeholder="Tempel data withdraw qris mentah di sini..."
-            ></textarea>
-
-            <div class="wdqris-filters">
-              <input
-                id="wdQrisLastTrxId"
-                class="filter-input"
-                placeholder="TRANSACTION ID TERAKHIR (contoh: TOJI932614162)"
-                autocomplete="off"
-              />
+          <article class="card glass cashback-card">
+            <div class="section-head inline">
+              <h3>Table 2</h3>
+              <button class="btn success small-copy" data-copy-cashback="1">COPY</button>
             </div>
-
-            <div class="actions">
-              <button class="btn primary" id="parseWdQrisBtn">PARSE DATA</button>
-              <button class="btn success" id="copyWdQrisMemberBtn">COPY ID AMOUNT</button>
-              <button class="btn success" id="copyWdQrisTransactionBtn">COPY TRANSACTION ID</button>
-              <button class="btn danger text-red" id="clearWdQrisBtn">CLEAR ALL</button>
-            </div>
-
-            <div id="wdQrisMessage" class="message-slot"></div>
-          </div>
-
-          <div class="card glass hidden" id="wdQrisResultCard">
-            <div class="stats" id="wdQrisStats"></div>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>AMOUNT</th>
-                    <th>TRANSACTION ID</th>
+                    <th>Pemain</th>
+                    <th>Player Menang Kalah</th>
                   </tr>
                 </thead>
-                <tbody id="wdQrisTableBody"></tbody>
+                <tbody id="cashbackTable1"></tbody>
               </table>
             </div>
-          </div>
-        </section>
+          </article>
 
-        <section class="panel" id="dpqris-panel">
-          <div class="card glass">
-            <textarea
-              id="dpQrisInput"
-              class="textarea"
-              placeholder="Tempel data deposit qris mentah di sini..."
-            ></textarea>
-
-            <div class="wdqris-filters">
-              <input
-                id="dpQrisLastTrxId"
-                class="filter-input"
-                placeholder="TRANSACTION ID TERAKHIR (contoh: TOJI932614162)"
-                autocomplete="off"
-              />
+          <article class="card glass cashback-card">
+            <div class="section-head inline">
+              <h3>Table 3</h3>
+              <button class="btn success small-copy" data-copy-cashback="2">COPY</button>
             </div>
-
-            <div class="actions">
-              <button class="btn primary" id="parseDpQrisBtn">PARSE DATA</button>
-              <button class="btn success" id="copyDpQrisIdAmountBtn">COPY PAID ID AMOUNT</button>
-              <button class="btn success" id="copyDpQrisTransactionBtn">COPY TRANSACTION ID</button>
-              <button class="btn danger text-red" id="clearDpQrisBtn">CLEAR ALL</button>
-            </div>
-
-            <div id="dpQrisMessage" class="message-slot"></div>
-          </div>
-
-          <div class="card glass hidden" id="dpQrisResultCard">
-            <div class="stats" id="dpQrisStats"></div>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>PAID</th>
-                    <th>ID</th>
-                    <th>AMOUNT</th>
-                    <th>TRANSACTION ID</th>
+                    <th>Pemain</th>
+                    <th>Player Menang Kalah</th>
                   </tr>
                 </thead>
-                <tbody id="dpQrisTableBody"></tbody>
+                <tbody id="cashbackTable2"></tbody>
               </table>
             </div>
-          </div>
-        </section>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
 
-        <section class="panel" id="deposit-panel">
-          <div class="card glass">
-            <label class="upload-box">
-              <input type="file" id="depositFile" accept=".csv" />
-              <span>PILIH FILE CSV</span>
-            </label>
+  <script src="./app.js?v=20260629-12"></script>
+</body>
 
-            <div class="actions hidden" id="depositActions">
-              <button class="btn success" id="copyDepositIdAmountBtn">COPY ID AMOUNT</button>
-              <button class="btn success" id="copyDepositRefBtn">COPY REF NUMBER</button>
-              <button class="btn danger text-red" id="clearDepositBtn">CLEAR ALL</button>
-            </div>
-
-            <div id="depositMessage" class="message-slot"></div>
-          </div>
-
-          <div class="card glass hidden" id="depositResultCard">
-            <div class="stats" id="depositStats"></div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th data-sort-table="deposit" data-sort-key="id">ID</th>
-                    <th data-sort-table="deposit" data-sort-key="amount">Nominal</th>
-                    <th data-sort-table="deposit" data-sort-key="refNumb">Ref Number</th>
-                  </tr>
-                </thead>
-                <tbody id="depositTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel" id="admin-panel">
-          <div class="card glass">
-            <textarea
-              id="adminInput"
-              class="textarea"
-              placeholder="Tempel data withdraw mentah di sini..."
-            ></textarea>
-
-            <div class="actions">
-              <button class="btn primary" id="parseAdminBtn">PARSE ADMIN DATA</button>
-              <button class="btn success" id="copyAdminBtn">COPY</button>
-              <button class="btn danger text-red" id="clearAdminBtn">CLEAR ALL</button>
-            </div>
-
-            <div id="adminMessage" class="message-slot"></div>
-          </div>
-
-          <div class="card glass hidden" id="adminResultCard">
-            <div class="section-head">
-              <div>
-                <h3>Parsed Admin Data</h3>
-              </div>
-            </div>
-
-            <div class="stats" id="adminStats"></div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th data-sort-table="admin" data-sort-key="bank">Bank</th>
-                    <th data-sort-table="admin" data-sort-key="id">ID</th>
-                    <th></th>
-                    <th data-sort-table="admin" data-sort-key="amount">Amount</th>
-                    <th data-sort-table="admin" data-sort-key="name">Name</th>
-                  </tr>
-                </thead>
-                <tbody id="adminTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel" id="cashback-panel">
-          <div class="card glass">
-            <label class="upload-box compact">
-              <input type="file" id="cashbackFile" accept=".csv" />
-              <span>PILIH FILE CSV</span>
-            </label>
-
-            <div class="actions hidden" id="cashbackActions">
-              <button class="btn danger text-red" id="clearCashbackBtn">CLEAR ALL</button>
-            </div>
-
-            <div id="cashbackMessage" class="message-slot"></div>
-          </div>
-
-          <div class="cashback-grid hidden" id="cashbackGrid">
-            <article class="card glass cashback-card">
-              <div class="section-head inline">
-                <h3>Table 1</h3>
-                <button class="btn success small-copy" data-copy-cashback="0">COPY</button>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pemain</th>
-                      <th>Player Menang Kalah</th>
-                    </tr>
-                  </thead>
-                  <tbody id="cashbackTable0"></tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card glass cashback-card">
-              <div class="section-head inline">
-                <h3>Table 2</h3>
-                <button class="btn success small-copy" data-copy-cashback="1">COPY</button>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pemain</th>
-                      <th>Player Menang Kalah</th>
-                    </tr>
-                  </thead>
-                  <tbody id="cashbackTable1"></tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card glass cashback-card">
-              <div class="section-head inline">
-                <h3>Table 3</h3>
-                <button class="btn success small-copy" data-copy-cashback="2">COPY</button>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pemain</th>
-                      <th>Player Menang Kalah</th>
-                    </tr>
-                  </thead>
-                  <tbody id="cashbackTable2"></tbody>
-                </table>
-              </div>
-            </article>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <script src="./app.js?v=20260629-12"></script>
-  </body>
-  </html>
+</html>
