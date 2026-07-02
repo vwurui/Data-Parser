@@ -309,7 +309,7 @@ function updateStats(targetId, items) {
   }, 0)
 
   const countLabel =
-    targetId === "withdrawStats"
+    targetId === "withdrawStats" || targetId === "adminStats"
       ? "Total Withdraw"
       : targetId === "depositStats"
         ? "Total Deposit"
