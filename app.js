@@ -38,7 +38,7 @@ $("clearWithdrawBtn").addEventListener("click", clearWithdraw)
 
 $("parseWdQrisBtn").addEventListener("click", parseWdQris)
 $("copyWdQrisMemberBtn").addEventListener("click", () => {
-  copyCustom(state.wdQris, (row) => `${row.member}\t${row.nominal}`, "wdQrisMessage")
+  copyCustom(state.wdQris, (row) => `${row.member}\t${row.nominal}\t${row.nominal}`, "wdQrisMessage")
 })
 $("copyWdQrisTransactionBtn").addEventListener("click", () => {
   copyCustom(state.wdQris, (row) => row.transactionId, "wdQrisMessage")
@@ -47,7 +47,7 @@ $("clearWdQrisBtn").addEventListener("click", clearWdQris)
 
 $("parseDpQrisBtn").addEventListener("click", parseDpQris)
 $("copyDpQrisIdAmountBtn").addEventListener("click", () => {
-  copyCustom(state.dpQris, (row) => `${row.paid}\t${row.id}\t${row.amount}`, "dpQrisMessage")
+  copyCustom(state.dpQris, (row) => `${row.paid}\t${row.id}\t${row.amount}\t${row.amount}`, "dpQrisMessage")
 })
 $("copyDpQrisTransactionBtn").addEventListener("click", () => {
   copyCustom(state.dpQris, (row) => row.transactionId, "dpQrisMessage")
@@ -340,13 +340,13 @@ function renderWithdraw() {
 }
 
 function renderWdQris() {
-  renderTable("wdQrisTableBody", state.wdQris, ["member", "nominal", "transactionId"])
+  renderTable("wdQrisTableBody", state.wdQris, ["member", "nominal", "nominal", "transactionId"])
   updateWdQrisStats()
   $("wdQrisResultCard").classList.toggle("hidden", state.wdQris.length === 0)
 }
 
 function renderDpQris() {
-  renderTable("dpQrisTableBody", state.dpQris, ["paid", "id", "amount", "transactionId"])
+  renderTable("dpQrisTableBody", state.dpQris, ["paid", "id", "amount", "amount", "transactionId"])
   updateDpQrisStats()
   $("dpQrisResultCard").classList.toggle("hidden", state.dpQris.length === 0)
 }
