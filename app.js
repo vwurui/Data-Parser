@@ -71,7 +71,7 @@ $("clearCashbackBtn").addEventListener("click", clearCashback)
 document.querySelectorAll("[data-copy-cashback]").forEach((button) => {
   button.addEventListener("click", () => {
     const index = Number(button.dataset.copyCashback)
-    copyCustom(state.cashbackTables[index], (row) => `${row.id}\t${row.amount}`, "cashbackMessage")
+    copyCustom(state.cashbackTables[index], (row) => `${row.id}\t${stripCashbackDecimals(row.amount)}`, "cashbackMessage")
   })
 })
 
@@ -1019,19 +1019,56 @@ function parseCashbackThresholdAmount(value) {
 }
 
 function formatCashbackDisplay(value) {
-  const num = parseCashbackThresholdAmount(value)
-  return formatCashbackNumber(num)
+  return formatCashbackLossAmount(value)
 }
 
-function formatCashbackNumber(num) {
-  if (!Number.isFinite(num)) return ""
-  const intVal = Math.trunc(num)
-  // Pakai koma (,) sebagai pemisah ribuan dan tanpa desimal/titik.
-  // Contoh: -100000 -> -100,000
-  return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(intVal)
+function formatCashbackLossAmount(value) {
+  const raw = String(value ?? "").trim()
+  if (!raw) return ""
+
+  // Target format (sesuai request):
+  // - hilangkan pemisah ribuan koma (,)
+  // - gunakan titik (.) sebagai pemisah desimal
+  // - jika input TIDAK punya desimal: anggap angka punya 3 digit desimal (milli),
+  //   lalu tampilkan 2 digit desimal (contoh: -16,202,369,620 -> -16202369.62)
+  const cleaned = raw.replace(/[^0-9,.\-]/g, "").trim()
+  if (!cleaned) return ""
+
+  const withoutComma = cleaned.replace(/,/g, "")
+
+  // Jika user sudah punya desimal (ada titik), tinggal pastikan tanpa koma ribuan
+  // dan pakai 2 digit desimal.
+  if (withoutComma.includes(".")) {
+    const num = Number.parseFloat(withoutComma)
+    if (!Number.isFinite(num)) return ""
+    const fixed = num.toFixed(2)
+    return fixed.endsWith(".00") ? fixed.slice(0, -3) : fixed
+  }
+
+  const negative = withoutComma.startsWith("-")
+  const digitsOnly = withoutComma.replace(/[^0-9]/g, "")
+  if (!digitsOnly) return ""
+
+  // Rounding dari 3 digit desimal -> 2 digit desimal:
+  // ambil 1 digit terakhir (digit ke-3 desimal), lalu /10 dan round half-up.
+  let absMilli = BigInt(digitsOnly)
+  let cents = absMilli / 10n
+  const thirdDecimal = absMilli % 10n
+  if (thirdDecimal >= 5n) cents += 1n
+
+  let centsStr = cents.toString()
+  if (centsStr.length <= 2) centsStr = centsStr.padStart(3, "0")
+  const intPart = centsStr.slice(0, -2) || "0"
+  const fracPart = centsStr.slice(-2)
+
+  if (fracPart === "00") return `${negative ? "-" : ""}${intPart}`
+  return `${negative ? "-" : ""}${intPart}.${fracPart}`
+}
+
+function stripCashbackDecimals(value) {
+  const raw = String(value ?? "").trim()
+  if (!raw) return ""
+  return raw.includes(".") ? raw.split(".")[0] : raw
 }
 
 function parseTabular(text) {
