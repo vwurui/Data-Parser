@@ -1,6 +1,7 @@
 const state = {
   withdraw: [],
   deposit: [],
+  historyCoin: [],
   admin: [],
   cashbackTables: [[], [], []],
   wdQris: [],
@@ -58,6 +59,10 @@ $("depositFile").addEventListener("change", handleDepositFile)
 $("copyDepositIdAmountBtn").addEventListener("click", () => copyCustom(state.deposit, (row) => `${row.id}\t${row.amount}`, "depositMessage"))
 $("copyDepositRefBtn").addEventListener("click", () => copyCustom(state.deposit, (row) => row.refNumb || "", "depositMessage"))
 $("clearDepositBtn").addEventListener("click", clearDeposit)
+
+$("historyCoinFile").addEventListener("change", handleHistoryCoinFile)
+$("copyHistoryCoinBtn").addEventListener("click", () => copyCustom(state.historyCoin, (row) => `${row.id}\t${row.coin}`, "historyCoinMessage"))
+$("clearHistoryCoinBtn").addEventListener("click", clearHistoryCoin)
 
 $("parseAdminBtn").addEventListener("click", parseAdmin)
 $("copyAdminBtn").addEventListener("click", () => {
@@ -357,6 +362,12 @@ function renderDeposit() {
   $("depositResultCard").classList.toggle("hidden", state.deposit.length === 0)
 }
 
+function renderHistoryCoin() {
+  renderTable("historyCoinTableBody", state.historyCoin, ["id", "coin"])
+  updateHistoryCoinStats()
+  $("historyCoinResultCard").classList.toggle("hidden", state.historyCoin.length === 0)
+}
+
 function renderAdmin() {
   renderTable("adminTableBody", state.admin, ["bank", "id", "spacer", "amount", "name"])
   updateStats("adminStats", state.admin)
@@ -646,6 +657,60 @@ function parseDepositCsv(csvText) {
   $("depositMessage").innerHTML = ""
 }
 
+function handleHistoryCoinFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  $("historyCoinActions").classList.remove("hidden")
+  $("historyCoinMessage").innerHTML = ""
+  const reader = new FileReader()
+  reader.onload = () => parseHistoryCoinCsv(String(reader.result || ""))
+  reader.readAsText(file)
+}
+
+function parseHistoryCoinCsv(csvText) {
+  const rows = parseCsv(csvText)
+  if (rows.length < 2) {
+    showMessage("historyCoinMessage", "CSV kosong atau tidak valid.", "error")
+    return
+  }
+
+  const headers = rows[0].map((cell) => normalizeHeader(cell))
+  const toIndex = headers.findIndex((header) => header === "to")
+  const byIndex = headers.findIndex((header) => header === "by")
+  const coinIndex = headers.findIndex((header) => header === "coin")
+
+  if ([toIndex, byIndex, coinIndex].includes(-1)) {
+    showMessage("historyCoinMessage", "Kolom wajib `TO`, `BY`, dan `Coin` tidak ditemukan.", "error")
+    return
+  }
+
+  const excludedByValues = new Set(["VWUAAQRIS", "PGA"])
+  state.historyCoin = rows
+    .slice(1)
+    .map((row) => {
+      const id = String(row[toIndex] || "").trim()
+      const by = String(row[byIndex] || "").trim()
+      const coinValue = parseAmount(row[coinIndex] || "")
+      return {
+        id,
+        by,
+        coinValue,
+        coin: formatNumber(coinValue),
+      }
+    })
+    .filter((row) => row.id && row.by && row.coinValue > 0 && !excludedByValues.has(row.by.toUpperCase()))
+
+  if (state.historyCoin.length === 0) {
+    renderHistoryCoin()
+    showMessage("historyCoinMessage", "Tidak ada data yang cocok setelah filter `BY` diterapkan.", "error")
+    return
+  }
+
+  renderHistoryCoin()
+  $("historyCoinMessage").innerHTML = ""
+}
+
 function parseAdmin() {
   const input = $("adminInput").value.trim()
   if (!input) {
@@ -852,6 +917,14 @@ function updateDpQrisStats() {
   `
 }
 
+function updateHistoryCoinStats() {
+  const totalCoin = state.historyCoin.reduce((sum, row) => sum + parseAmount(row.coinValue), 0)
+  $("historyCoinStats").innerHTML = `
+    <div class="stat"><span>Total History Coin</span><strong>${state.historyCoin.length}</strong></div>
+    <div class="stat"><span>Total Coin</span><strong>${formatNumber(totalCoin)}</strong></div>
+  `
+}
+
 function clearWdQris() {
   state.wdQris = []
   state.wdQrisLastPaidAtMs = null
@@ -875,6 +948,14 @@ function clearDeposit() {
   $("depositFile").value = ""
   $("depositActions").classList.add("hidden")
   renderDeposit()
+}
+
+function clearHistoryCoin() {
+  state.historyCoin = []
+  $("historyCoinFile").value = ""
+  $("historyCoinActions").classList.add("hidden")
+  $("historyCoinMessage").innerHTML = ""
+  renderHistoryCoin()
 }
 
 function clearAdmin() {
