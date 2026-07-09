@@ -586,6 +586,10 @@ body[data-theme="light"] .filter-input::placeholder {
   justify-content: center;
 }
 
+#historyCoinActions {
+  justify-content: center;
+}
+
 .actions .btn {
   width: 240px;
   min-width: 240px;
