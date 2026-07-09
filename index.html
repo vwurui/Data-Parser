@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260629-12" />
+  <link rel="stylesheet" href="./.uploads/d1940af2-e37e-448f-bc80-7ebea9736c2f_styles.css" />
+  <link rel="stylesheet" href="./compare-feature.css" />
 </head>
 
 <body>
@@ -25,6 +26,7 @@
         <button class="nav-btn" data-tab="dpqris">DP QRIS</button>
         <button class="nav-btn" data-tab="admin">WITHDRAW</button>
         <button class="nav-btn" data-tab="cashback">CASHBACK</button>
+        <button class="nav-btn" data-tab="reconcile">COIN FINDER</button>
       </nav>
 
       <div class="sidebar-controls">
@@ -71,6 +73,10 @@
         <label class="menu-toggle-row">
           <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="cashback" checked />
           <span>CASHBACK</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="reconcile" checked />
+          <span>COIN FINDER</span>
         </label>
       </div>
     </aside>
@@ -321,10 +327,144 @@
           </article>
         </div>
       </section>
+
+      <section class="panel" id="reconcile-panel">
+        <div class="card glass">
+          <div class="compare-input-grid" id="compareInputGrid">
+            <article class="compare-input-card">
+              <div class="section-head compact">
+                <div>
+                  <h3>ADMIN</h3>
+                </div>
+              </div>
+              <textarea id="compareReportInput" class="textarea small compare-textarea"></textarea>
+            </article>
+
+            <article class="compare-input-card">
+              <div class="section-head compact">
+                <div>
+                  <h3>DOC</h3>
+                </div>
+              </div>
+              <textarea id="compareDocInput" class="textarea small compare-textarea"></textarea>
+            </article>
+          </div>
+
+          <div class="actions compare-actions">
+            <button class="btn danger text-red" id="clearCompareBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="compareMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="compareResultCard">
+          <div class="stats" id="compareStats"></div>
+
+          <div class="compare-grid hidden">
+            <article class="compare-sheet compare-sheet-dark">
+              <div class="compare-sheet-head">
+                <h3>ADMIN</h3>
+                <span class="compare-sheet-note">Tabel abu</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>COIN</th>
+                      <th>X</th>
+                    </tr>
+                  </thead>
+                  <tbody id="compareReportListBody"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="compare-sheet compare-sheet-dark">
+              <div class="compare-sheet-head">
+                <h3>DOC</h3>
+                <span class="compare-sheet-note">Tabel abu</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>COIN</th>
+                      <th>X</th>
+                    </tr>
+                  </thead>
+                  <tbody id="compareDocListBody"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <div class="compare-grid hidden">
+            <article class="compare-sheet compare-sheet-light">
+              <div class="compare-sheet-head">
+                <h3>TABLE ADMIN</h3>
+                <span class="compare-sheet-note">Tabel putih</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>COIN</th>
+                      <th>X</th>
+                    </tr>
+                  </thead>
+                  <tbody id="compareReportSummaryBody"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="compare-sheet compare-sheet-light">
+              <div class="compare-sheet-head">
+                <h3>TABLE DOC</h3>
+                <span class="compare-sheet-note">Tabel putih</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>COIN</th>
+                      <th>X</th>
+                    </tr>
+                  </thead>
+                  <tbody id="compareDocSummaryBody"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <div class="compare-diff-wrap">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STATUS</th>
+                    <th>ID</th>
+                    <th>COIN</th>
+                    <th>ADMIN</th>
+                    <th>DOC</th>
+                    <th>SELISIH</th>
+                  </tr>
+                </thead>
+                <tbody id="compareDiffBody"></tbody>
+              </table>
+            </div>
+            <div class="compare-empty hidden" id="compareDiffEmpty">Tidak ada selisih</div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
-  <script src="./app.js?v=20260629-12"></script>
+  <script src="./.uploads/075a01ee-b5b4-4b26-9bc5-85269b84f2da_app.js"></script>
+  <script src="./compare-feature.js"></script>
 </body>
 
 </html>
