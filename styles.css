@@ -578,6 +578,10 @@ body[data-theme="light"] .filter-input::placeholder {
   margin-top: 20px;
 }
 
+#depositActions {
+  justify-content: center;
+}
+
 #cashbackActions {
   justify-content: center;
 }
