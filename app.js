@@ -2,6 +2,7 @@ const state = {
   withdraw: [],
   deposit: [],
   historyCoin: [],
+  historyDpPga: [],
   admin: [],
   cashbackTables: [[], [], []],
   wdQris: [],
@@ -63,6 +64,11 @@ $("clearDepositBtn").addEventListener("click", clearDeposit)
 $("historyCoinFile").addEventListener("change", handleHistoryCoinFile)
 $("copyHistoryCoinBtn").addEventListener("click", () => copyCustom(state.historyCoin, (row) => `${row.id}\t${row.coin}`, "historyCoinMessage"))
 $("clearHistoryCoinBtn").addEventListener("click", clearHistoryCoin)
+
+$("historyDpPgaFile").addEventListener("change", handleHistoryDpPgaFile)
+$("copyHistoryDpPgaRefBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => row.refNumber, "historyDpPgaMessage"))
+$("copyHistoryDpPgaAmountBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => row.amount, "historyDpPgaMessage"))
+$("clearHistoryDpPgaBtn").addEventListener("click", clearHistoryDpPga)
 
 $("parseAdminBtn").addEventListener("click", parseAdmin)
 $("copyAdminBtn").addEventListener("click", () => {
@@ -366,6 +372,12 @@ function renderHistoryCoin() {
   renderTable("historyCoinTableBody", state.historyCoin, ["id", "coin"])
   updateHistoryCoinStats()
   $("historyCoinResultCard").classList.toggle("hidden", state.historyCoin.length === 0)
+}
+
+function renderHistoryDpPga() {
+  renderTable("historyDpPgaTableBody", state.historyDpPga, ["refNumber", "amount"])
+  updateHistoryDpPgaStats()
+  $("historyDpPgaResultCard").classList.toggle("hidden", state.historyDpPga.length === 0)
 }
 
 function renderAdmin() {
@@ -711,6 +723,78 @@ function parseHistoryCoinCsv(csvText) {
   $("historyCoinMessage").innerHTML = ""
 }
 
+function handleHistoryDpPgaFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  $("historyDpPgaActions").classList.remove("hidden")
+  $("historyDpPgaMessage").innerHTML = ""
+
+  if (typeof XLSX === "undefined") {
+    showMessage("historyDpPgaMessage", "Library XLSX belum termuat. Coba refresh halaman.", "error")
+    return
+  }
+
+  const reader = new FileReader()
+  reader.onload = () => parseHistoryDpPgaWorkbook(reader.result)
+  reader.readAsArrayBuffer(file)
+}
+
+function parseHistoryDpPgaWorkbook(arrayBuffer) {
+  let workbook
+  try {
+    workbook = XLSX.read(arrayBuffer, { type: "array" })
+  } catch {
+    showMessage("historyDpPgaMessage", "File XLSX tidak bisa dibaca.", "error")
+    return
+  }
+
+  const firstSheetName = workbook.SheetNames?.[0]
+  const worksheet = firstSheetName ? workbook.Sheets[firstSheetName] : null
+  if (!worksheet) {
+    showMessage("historyDpPgaMessage", "Sheet pada file XLSX tidak ditemukan.", "error")
+    return
+  }
+
+  const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: "" })
+  if (rows.length < 2) {
+    showMessage("historyDpPgaMessage", "File XLSX kosong atau tidak valid.", "error")
+    return
+  }
+
+  const headers = rows[0].map((cell) => normalizeHeader(cell))
+  const refIndex = headers.findIndex((header) => header === "noref")
+  const amountIndex = headers.findIndex((header) => header === "jumlahbayar")
+
+  if ([refIndex, amountIndex].includes(-1)) {
+    showMessage("historyDpPgaMessage", "Kolom wajib `No.Ref` dan `Jumlah Bayar` tidak ditemukan.", "error")
+    return
+  }
+
+  state.historyDpPga = rows
+    .slice(1)
+    .map((row) => {
+      const rawRef = String(row[refIndex] || "").trim()
+      const refNumber = rawRef.replace(/^'+/, "").trim()
+      const amountValue = parseAmount(row[amountIndex] || "")
+      return {
+        refNumber,
+        amountValue,
+        amount: formatNumber(amountValue),
+      }
+    })
+    .filter((row) => row.refNumber && row.amountValue > 0)
+
+  if (state.historyDpPga.length === 0) {
+    renderHistoryDpPga()
+    showMessage("historyDpPgaMessage", "Tidak ada data valid yang bisa ditampilkan.", "error")
+    return
+  }
+
+  renderHistoryDpPga()
+  $("historyDpPgaMessage").innerHTML = ""
+}
+
 function parseAdmin() {
   const input = $("adminInput").value.trim()
   if (!input) {
@@ -925,6 +1009,14 @@ function updateHistoryCoinStats() {
   `
 }
 
+function updateHistoryDpPgaStats() {
+  const totalAmount = state.historyDpPga.reduce((sum, row) => sum + parseAmount(row.amountValue), 0)
+  $("historyDpPgaStats").innerHTML = `
+    <div class="stat"><span>Total History DP PGA</span><strong>${state.historyDpPga.length}</strong></div>
+    <div class="stat"><span>Total Amount</span><strong>${formatNumber(totalAmount)}</strong></div>
+  `
+}
+
 function clearWdQris() {
   state.wdQris = []
   state.wdQrisLastPaidAtMs = null
@@ -956,6 +1048,14 @@ function clearHistoryCoin() {
   $("historyCoinActions").classList.add("hidden")
   $("historyCoinMessage").innerHTML = ""
   renderHistoryCoin()
+}
+
+function clearHistoryDpPga() {
+  state.historyDpPga = []
+  $("historyDpPgaFile").value = ""
+  $("historyDpPgaActions").classList.add("hidden")
+  $("historyDpPgaMessage").innerHTML = ""
+  renderHistoryDpPga()
 }
 
 function clearAdmin() {
