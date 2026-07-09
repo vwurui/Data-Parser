@@ -66,8 +66,7 @@ $("copyHistoryCoinBtn").addEventListener("click", () => copyCustom(state.history
 $("clearHistoryCoinBtn").addEventListener("click", clearHistoryCoin)
 
 $("historyDpPgaFile").addEventListener("change", handleHistoryDpPgaFile)
-$("copyHistoryDpPgaRefBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => row.refNumber, "historyDpPgaMessage"))
-$("copyHistoryDpPgaAmountBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => row.amount, "historyDpPgaMessage"))
+$("copyHistoryDpPgaRefAmountBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => `${row.refNumber}\t${row.amount}`, "historyDpPgaMessage"))
 $("clearHistoryDpPgaBtn").addEventListener("click", clearHistoryDpPga)
 
 $("parseAdminBtn").addEventListener("click", parseAdmin)
