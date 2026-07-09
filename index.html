@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./compare-feature.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -28,6 +29,7 @@
         <button class="nav-btn" data-tab="cashback">CASHBACK</button>
         <button class="nav-btn" data-tab="reconcile">COIN FINDER</button>
         <button class="nav-btn" data-tab="historycoin">HISTORY COIN</button>
+        <button class="nav-btn" data-tab="historydppga">HISTORY DP PGA</button>
       </nav>
 
       <div class="sidebar-controls">
@@ -82,6 +84,10 @@
         <label class="menu-toggle-row">
           <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historycoin" checked />
           <span>HISTORY COIN</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historydppga" checked />
+          <span>HISTORY DP PGA</span>
         </label>
       </div>
     </aside>
@@ -256,6 +262,38 @@
                 </tr>
               </thead>
               <tbody id="historyCoinTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="historydppga-panel">
+        <div class="card glass">
+          <label class="upload-box">
+            <input type="file" id="historyDpPgaFile" accept=".xlsx,.xls" />
+            <span>PILIH FILE XLSX</span>
+          </label>
+
+          <div class="actions hidden" id="historyDpPgaActions">
+            <button class="btn success" id="copyHistoryDpPgaRefBtn">COPY REF NUMBER</button>
+            <button class="btn success" id="copyHistoryDpPgaAmountBtn">AMOUNT</button>
+            <button class="btn danger text-red" id="clearHistoryDpPgaBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="historyDpPgaMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="historyDpPgaResultCard">
+          <div class="stats" id="historyDpPgaStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>REF NUMBER</th>
+                  <th>AMOUNT</th>
+                </tr>
+              </thead>
+              <tbody id="historyDpPgaTableBody"></tbody>
             </table>
           </div>
         </div>
