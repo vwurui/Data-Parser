@@ -27,6 +27,7 @@
         <button class="nav-btn" data-tab="admin">WITHDRAW</button>
         <button class="nav-btn" data-tab="cashback">CASHBACK</button>
         <button class="nav-btn" data-tab="reconcile">COIN FINDER</button>
+        <button class="nav-btn" data-tab="historycoin">HISTORY COIN</button>
       </nav>
 
       <div class="sidebar-controls">
@@ -77,6 +78,10 @@
         <label class="menu-toggle-row">
           <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="reconcile" checked />
           <span>COIN FINDER</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historycoin" checked />
+          <span>HISTORY COIN</span>
         </label>
       </div>
     </aside>
@@ -220,6 +225,37 @@
                 </tr>
               </thead>
               <tbody id="depositTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="historycoin-panel">
+        <div class="card glass">
+          <label class="upload-box">
+            <input type="file" id="historyCoinFile" accept=".csv" />
+            <span>PILIH FILE CSV</span>
+          </label>
+
+          <div class="actions hidden" id="historyCoinActions">
+            <button class="btn success" id="copyHistoryCoinBtn">COPY ID COIN</button>
+            <button class="btn danger text-red" id="clearHistoryCoinBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="historyCoinMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="historyCoinResultCard">
+          <div class="stats" id="historyCoinStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>COIN</th>
+                </tr>
+              </thead>
+              <tbody id="historyCoinTableBody"></tbody>
             </table>
           </div>
         </div>
