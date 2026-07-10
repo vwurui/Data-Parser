@@ -708,7 +708,7 @@ function parseHistoryCoinCsv(csvText) {
     return
   }
 
-  const excludedByValues = new Set(["VWUAAQRIS", "PGA"])
+  const excludedByValues = new Set(["VWUAAQRIS", "PGA", "VWUAACB1", "VWUAACB2", "VWUAACB3"])
   state.historyCoin = rows
     .slice(1)
     .map((row) => {
