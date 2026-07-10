@@ -3,6 +3,7 @@ const state = {
   deposit: [],
   historyCoin: [],
   historyDpPga: [],
+  historyWdPga: [],
   admin: [],
   cashbackTables: [[], [], []],
   wdQris: [],
@@ -68,6 +69,11 @@ $("clearHistoryCoinBtn").addEventListener("click", clearHistoryCoin)
 $("historyDpPgaFile").addEventListener("change", handleHistoryDpPgaFile)
 $("copyHistoryDpPgaRefAmountBtn").addEventListener("click", () => copyCustom(state.historyDpPga, (row) => `${row.refNumber}\t${row.amount}`, "historyDpPgaMessage"))
 $("clearHistoryDpPgaBtn").addEventListener("click", clearHistoryDpPga)
+
+$("historyWdPgaFile").addEventListener("change", handleHistoryWdPgaFile)
+$("copyHistoryWdPgaIdAmountBtn").addEventListener("click", () => copyCustom(state.historyWdPga, (row) => `${row.id}\t${row.amount}`, "historyWdPgaMessage"))
+$("copyHistoryWdPgaRefBtn").addEventListener("click", () => copyCustom(state.historyWdPga, (row) => row.refNumber, "historyWdPgaMessage"))
+$("clearHistoryWdPgaBtn").addEventListener("click", clearHistoryWdPga)
 
 $("parseAdminBtn").addEventListener("click", parseAdmin)
 $("copyAdminBtn").addEventListener("click", () => {
@@ -377,6 +383,12 @@ function renderHistoryDpPga() {
   renderTable("historyDpPgaTableBody", state.historyDpPga, ["refNumber", "amount"])
   updateHistoryDpPgaStats()
   $("historyDpPgaResultCard").classList.toggle("hidden", state.historyDpPga.length === 0)
+}
+
+function renderHistoryWdPga() {
+  renderTable("historyWdPgaTableBody", state.historyWdPga, ["id", "amount", "refNumber"])
+  updateHistoryWdPgaStats()
+  $("historyWdPgaResultCard").classList.toggle("hidden", state.historyWdPga.length === 0)
 }
 
 function renderAdmin() {
@@ -794,6 +806,62 @@ function parseHistoryDpPgaWorkbook(arrayBuffer) {
   $("historyDpPgaMessage").innerHTML = ""
 }
 
+function handleHistoryWdPgaFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  $("historyWdPgaActions").classList.remove("hidden")
+  $("historyWdPgaMessage").innerHTML = ""
+
+  const reader = new FileReader()
+  reader.onload = () => parseHistoryWdPgaCsv(String(reader.result || ""))
+  reader.readAsText(file)
+}
+
+function parseHistoryWdPgaCsv(csvText) {
+  const rows = parseCsv(csvText)
+  if (rows.length < 2) {
+    showMessage("historyWdPgaMessage", "File CSV kosong atau tidak valid.", "error")
+    return
+  }
+
+  const headers = rows[0].map((cell) => normalizeHeader(cell))
+  const refIndex = headers.findIndex((header) => header === "noref")
+  const descriptionIndex = headers.findIndex((header) => header === "deskripsi")
+  const amountIndex = headers.findIndex((header) => header === "diterimakustomer")
+
+  if ([refIndex, descriptionIndex, amountIndex].includes(-1)) {
+    showMessage("historyWdPgaMessage", "Kolom wajib `No.Ref`, `Deskripsi`, dan `Diterima Kustomer` tidak ditemukan.", "error")
+    return
+  }
+
+  state.historyWdPga = rows
+    .slice(1)
+    .map((row) => {
+      const rawRef = String(row[refIndex] || "").trim()
+      const refNumber = rawRef.replace(/^'+/, "").trim()
+      const description = String(row[descriptionIndex] || "").trim()
+      const id = description.split(/\s+/).filter(Boolean)[0] || ""
+      const amountValue = parseAmount(row[amountIndex] || "")
+      return {
+        id,
+        amountValue,
+        amount: formatNumber(amountValue),
+        refNumber,
+      }
+    })
+    .filter((row) => row.id && row.refNumber && row.amountValue > 0)
+
+  if (state.historyWdPga.length === 0) {
+    renderHistoryWdPga()
+    showMessage("historyWdPgaMessage", "Tidak ada data valid yang bisa ditampilkan.", "error")
+    return
+  }
+
+  renderHistoryWdPga()
+  $("historyWdPgaMessage").innerHTML = ""
+}
+
 function parseAdmin() {
   const input = $("adminInput").value.trim()
   if (!input) {
@@ -1016,6 +1084,14 @@ function updateHistoryDpPgaStats() {
   `
 }
 
+function updateHistoryWdPgaStats() {
+  const totalAmount = state.historyWdPga.reduce((sum, row) => sum + parseAmount(row.amountValue), 0)
+  $("historyWdPgaStats").innerHTML = `
+    <div class="stat"><span>Total History WD PGA</span><strong>${state.historyWdPga.length}</strong></div>
+    <div class="stat"><span>Total Amount</span><strong>${formatNumber(totalAmount)}</strong></div>
+  `
+}
+
 function clearWdQris() {
   state.wdQris = []
   state.wdQrisLastPaidAtMs = null
@@ -1055,6 +1131,14 @@ function clearHistoryDpPga() {
   $("historyDpPgaActions").classList.add("hidden")
   $("historyDpPgaMessage").innerHTML = ""
   renderHistoryDpPga()
+}
+
+function clearHistoryWdPga() {
+  state.historyWdPga = []
+  $("historyWdPgaFile").value = ""
+  $("historyWdPgaActions").classList.add("hidden")
+  $("historyWdPgaMessage").innerHTML = ""
+  renderHistoryWdPga()
 }
 
 function clearAdmin() {
@@ -1108,13 +1192,21 @@ async function copyText(text, slotId) {
 
 function parseCsv(text) {
   const rows = []
+  const normalizedText = String(text || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n")
+  const sampleLine = normalizedText
+    .split("\n")
+    .map((line) => line.trim())
+    .find(Boolean) || ""
+  const commaCount = (sampleLine.match(/,/g) || []).length
+  const semicolonCount = (sampleLine.match(/;/g) || []).length
+  const delimiter = semicolonCount > commaCount ? ";" : ","
   let current = []
   let value = ""
   let inQuotes = false
 
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i]
-    const next = text[i + 1]
+  for (let i = 0; i < normalizedText.length; i += 1) {
+    const char = normalizedText[i]
+    const next = normalizedText[i + 1]
 
     if (char === '"') {
       if (inQuotes && next === '"') {
@@ -1126,7 +1218,7 @@ function parseCsv(text) {
       continue
     }
 
-    if (char === "," && !inQuotes) {
+    if (char === delimiter && !inQuotes) {
       current.push(value)
       value = ""
       continue
