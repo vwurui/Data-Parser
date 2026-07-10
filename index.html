@@ -30,6 +30,7 @@
         <button class="nav-btn" data-tab="reconcile">COIN FINDER</button>
         <button class="nav-btn" data-tab="historycoin">HISTORY COIN</button>
         <button class="nav-btn" data-tab="historydppga">HISTORY DP PGA</button>
+        <button class="nav-btn" data-tab="historywdpga">HISTORY WD PGA</button>
       </nav>
 
       <div class="sidebar-controls">
@@ -88,6 +89,10 @@
         <label class="menu-toggle-row">
           <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historydppga" checked />
           <span>HISTORY DP PGA</span>
+        </label>
+        <label class="menu-toggle-row">
+          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historywdpga" checked />
+          <span>HISTORY WD PGA</span>
         </label>
       </div>
     </aside>
@@ -275,7 +280,7 @@
           </label>
 
           <div class="actions hidden" id="historyDpPgaActions">
-            <button class="btn success" id="copyHistoryDpPgaRefAmountBtn">COPY REF NUMBER AMOUNT</button>
+            <button class="btn success" id="copyHistoryDpPgaRefAmountBtn">COPY REF AMOUNT</button>
             <button class="btn danger text-red" id="clearHistoryDpPgaBtn">CLEAR ALL</button>
           </div>
 
@@ -293,6 +298,39 @@
                 </tr>
               </thead>
               <tbody id="historyDpPgaTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="historywdpga-panel">
+        <div class="card glass">
+          <label class="upload-box">
+            <input type="file" id="historyWdPgaFile" accept=".csv" />
+            <span>PILIH FILE CSV</span>
+          </label>
+
+          <div class="actions hidden" id="historyWdPgaActions">
+            <button class="btn success" id="copyHistoryWdPgaIdAmountBtn">COPY ID AMOUNT</button>
+            <button class="btn success" id="copyHistoryWdPgaRefBtn">COPY REF NUMBER</button>
+            <button class="btn danger text-red" id="clearHistoryWdPgaBtn">CLEAR ALL</button>
+          </div>
+
+          <div id="historyWdPgaMessage" class="message-slot"></div>
+        </div>
+
+        <div class="card glass hidden" id="historyWdPgaResultCard">
+          <div class="stats" id="historyWdPgaStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>AMOUNT</th>
+                  <th>REF NUMBER</th>
+                </tr>
+              </thead>
+              <tbody id="historyWdPgaTableBody"></tbody>
             </table>
           </div>
         </div>
