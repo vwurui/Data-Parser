@@ -427,7 +427,7 @@ function parseWithdraw() {
         result.push({
           bank: get(13),
           id: get(9),
-          amount: get(15).replace(/^Rp\s*/i, ""),
+          amount: formatNumber(parseAmount(get(15).replace(/^Rp\s*/i, ""))),
           name: get(11).toUpperCase(),
           reff: /^TF_\d{6}_[A-Z0-9]{15,30}$/.test(refCandidate) ? refCandidate : "",
         })
@@ -671,7 +671,7 @@ function parseDepositCsv(csvText) {
     .slice(1)
     .map((row) => ({
       id: (row[idIndex] || "").trim(),
-      amount: (row[amountIndex] || "").trim(),
+      amount: formatNumber(parseAmount(row[amountIndex] || "")),
       refNumb: (row[refIndex] || "").trim(),
     }))
     .filter((row) => row.id && row.amount)
@@ -887,7 +887,7 @@ function parseAdmin() {
 
     if (/^withdraw\b/i.test(trimmed)) {
       const parts = trimmed.split(/\s+/)
-      current.amount = parts[3] || parts[parts.length - 1] || ""
+      current.amount = formatNumber(parseAmount(parts[3] || parts[parts.length - 1] || ""))
       return
     }
 
