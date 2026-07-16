@@ -16,84 +16,90 @@
 <body>
   <div class="app-shell">
     <aside class="sidebar glass">
-      <div class="brand">
-        <div class="brand-logo">TOPJITU.COM</div>
+      <div class="sidebar-brand-wrap">
+        <div class="brand">
+          <div class="brand-logo">TOPJITU.COM</div>
+        </div>
       </div>
 
-      <nav class="nav">
-        <button class="nav-btn active" data-tab="withdraw">WITHDRAW PGA</button>
-        <button class="nav-btn" data-tab="deposit">DEPOSIT PGA</button>
-        <button class="nav-btn" data-tab="wdqris">WD QRIS</button>
-        <button class="nav-btn" data-tab="dpqris">DP QRIS</button>
-        <button class="nav-btn" data-tab="admin">WITHDRAW</button>
-        <button class="nav-btn" data-tab="cashback">CASHBACK</button>
-        <button class="nav-btn" data-tab="reconcile">COIN FINDER</button>
-        <button class="nav-btn" data-tab="historycoin">HISTORY COIN</button>
-        <button class="nav-btn" data-tab="historydppga">HISTORY DP PGA</button>
-        <button class="nav-btn" data-tab="historywdpga">HISTORY WD PGA</button>
-      </nav>
-
-      <div class="sidebar-controls">
-        <div class="theme-switch glass">
-          <button class="theme-btn active" id="darkModeBtn" type="button" aria-label="Dark mode">
-            <span class="theme-icon moon-icon"></span>
-          </button>
-          <button class="theme-btn" id="lightModeBtn" type="button" aria-label="Light mode">
-            <span class="theme-icon sun-icon"></span>
-          </button>
-        </div>
-
-        <label class="color-switch glass" aria-label="Warna custom">
-          <input id="accentColorInput" type="color" value="#f5d15f" />
-          <span class="color-icon"></span>
-        </label>
-
-        <button class="theme-btn glass" id="toggleMenuManagerBtn" type="button" aria-label="Atur menu">
-          <span class="manage-icon">=</span>
+      <div class="sidebar-topbar">
+        <button class="theme-btn glass sidebar-toggle-btn" id="toggleSidebarBtn" type="button" aria-label="Perlebar layar">
+          <span class="sidebar-toggle-icon"></span>
+        </button>
+        <button class="sidebar-section-btn glass sidebar-hide-btn" id="toggleMenuManagerBtn" type="button" aria-label="Atur menu">
+          <span class="sidebar-section-icon hide-menu-icon"></span>
+          <span class="sidebar-section-label">HIDE MENU</span>
         </button>
       </div>
 
-      <div class="menu-manager glass hidden" id="menuManager">
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="withdraw" checked />
-          <span>WITHDRAW PGA</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="deposit" checked />
-          <span>DEPOSIT PGA</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="wdqris" checked />
-          <span>WD QRIS</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="dpqris" checked />
-          <span>DP QRIS</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="admin" checked />
-          <span>WITHDRAW</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="cashback" checked />
-          <span>CASHBACK</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="reconcile" checked />
-          <span>COIN FINDER</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historycoin" checked />
-          <span>HISTORY COIN</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historydppga" checked />
-          <span>HISTORY DP PGA</span>
-        </label>
-        <label class="menu-toggle-row">
-          <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historywdpga" checked />
-          <span>HISTORY WD PGA</span>
-        </label>
+      <div class="sidebar-tools">
+        <div class="menu-manager glass hidden" id="menuManager">
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="withdraw" checked />
+            <span>WITHDRAW PGA</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="deposit" checked />
+            <span>DEPOSIT PGA</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="wdqris" checked />
+            <span>WD QRIS</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="dpqris" checked />
+            <span>DP QRIS</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="admin" checked />
+            <span>WITHDRAW</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="cashback" checked />
+            <span>CASHBACK</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="reconcile" checked />
+            <span>COIN FINDER</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historycoin" checked />
+            <span>HISTORY COIN</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historydppga" checked />
+            <span>HISTORY DP PGA</span>
+          </label>
+          <label class="menu-toggle-row">
+            <input type="checkbox" class="menu-visibility-toggle" data-menu-tab="historywdpga" checked />
+            <span>HISTORY WD PGA</span>
+          </label>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-tab="withdraw" data-full-label="WITHDRAW PGA" data-short-label="WD PGA">WITHDRAW PGA</button>
+        <button class="nav-btn" data-tab="deposit" data-full-label="DEPOSIT PGA" data-short-label="DP PGA">DEPOSIT PGA</button>
+        <button class="nav-btn" data-tab="wdqris" data-full-label="WD QRIS" data-short-label="WD QR">WD QRIS</button>
+        <button class="nav-btn" data-tab="dpqris" data-full-label="DP QRIS" data-short-label="DP QR">DP QRIS</button>
+        <button class="nav-btn" data-tab="admin" data-full-label="WITHDRAW" data-short-label="WD">WITHDRAW</button>
+        <button class="nav-btn" data-tab="cashback" data-full-label="CASHBACK" data-short-label="CB">CASHBACK</button>
+        <button class="nav-btn" data-tab="reconcile" data-full-label="COIN FINDER" data-short-label="CF">COIN FINDER</button>
+        <button class="nav-btn" data-tab="historycoin" data-full-label="HISTORY COIN" data-short-label="HC">HISTORY COIN</button>
+        <button class="nav-btn" data-tab="historydppga" data-full-label="HISTORY DP PGA" data-short-label="HDP">HISTORY DP PGA</button>
+        <button class="nav-btn" data-tab="historywdpga" data-full-label="HISTORY WD PGA" data-short-label="HWP">HISTORY WD PGA</button>
+      </nav>
+
+      <div class="sidebar-controls">
+        <div class="settings-panel glass" id="settingsPanel">
+          <button class="settings-action-btn glass" id="toggleThemeBtn" type="button" aria-label="Ganti dark atau light mode">
+            <span class="theme-icon moon-icon" id="toggleThemeIcon"></span>
+          </button>
+          <label class="settings-action-btn glass color-switch" aria-label="Warna custom">
+            <input id="accentColorInput" type="color" value="#f5d15f" />
+            <span class="color-icon"></span>
+          </label>
+        </div>
       </div>
     </aside>
 
