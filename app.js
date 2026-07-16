@@ -15,6 +15,7 @@ const state = {
 
 const $ = (id) => document.getElementById(id)
 
+initInteractionGuards()
 initTheme()
 initAccentColor()
 initMenuVisibility()
@@ -94,6 +95,33 @@ document.querySelectorAll("[data-copy-cashback]").forEach((button) => {
 document.querySelectorAll("[data-sort-table]").forEach((header) => {
   header.addEventListener("click", () => sortTable(header.dataset.sortTable, header.dataset.sortKey))
 })
+
+function initInteractionGuards() {
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault()
+  })
+
+  window.addEventListener(
+    "keydown",
+    (event) => {
+      const key = String(event.key || "").toLowerCase()
+      const ctrlOrMeta = event.ctrlKey || event.metaKey
+      const blockedShortcut =
+        key === "f12" ||
+        (ctrlOrMeta && key === "i") ||
+        (ctrlOrMeta && key === "u") ||
+        (ctrlOrMeta && event.shiftKey && ["i", "j", "c"].includes(key))
+
+      if (!blockedShortcut) return
+
+      event.preventDefault()
+      event.stopPropagation()
+      event.stopImmediatePropagation?.()
+      return false
+    },
+    true
+  )
+}
 
 function switchTab(name) {
   document.querySelectorAll(".nav-btn").forEach((button) => {
