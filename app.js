@@ -10,25 +10,36 @@ const state = {
   dpQris: [],
   wdQrisLastPaidAtMs: null,
   hiddenMenus: [],
+  sidebarCollapsed: false,
   sort: {},
 }
 
 const $ = (id) => document.getElementById(id)
 
 initInteractionGuards()
+initSidebarState()
 initTheme()
 initAccentColor()
 initMenuVisibility()
+initSettingsPanel()
 
 document.querySelectorAll(".nav-btn").forEach((button) => {
   button.addEventListener("click", () => switchTab(button.dataset.tab))
 })
 
-$("darkModeBtn").addEventListener("click", () => setTheme("dark"))
-$("lightModeBtn").addEventListener("click", () => setTheme("light"))
+$("darkModeBtn")?.addEventListener("click", () => setTheme("dark"))
+$("lightModeBtn")?.addEventListener("click", () => setTheme("light"))
 $("accentColorInput")?.addEventListener("input", (event) => setAccentColor(event.target.value))
 $("toggleMenuManagerBtn")?.addEventListener("click", () => {
   $("menuManager")?.classList.toggle("hidden")
+})
+$("toggleSidebarBtn")?.addEventListener("click", toggleSidebar)
+$("settingsPanel")?.addEventListener("click", (event) => {
+  event.stopPropagation()
+})
+$("toggleThemeBtn")?.addEventListener("click", (event) => {
+  event.stopPropagation()
+  toggleTheme()
 })
 document.querySelectorAll(".menu-visibility-toggle").forEach((checkbox) => {
   checkbox.addEventListener("change", () => toggleMenuVisibility(checkbox.dataset.menuTab, checkbox.checked))
@@ -101,6 +112,14 @@ function initInteractionGuards() {
     event.preventDefault()
   })
 
+  document.addEventListener("click", (event) => {
+    const target = event.target
+    if (!(target instanceof Element)) return
+    if (!target.closest(".sidebar")) {
+      $("menuManager")?.classList.add("hidden")
+    }
+  })
+
   window.addEventListener(
     "keydown",
     (event) => {
@@ -121,6 +140,52 @@ function initInteractionGuards() {
     },
     true
   )
+}
+
+function initSidebarState() {
+  let savedCollapsed = false
+  try {
+    savedCollapsed = localStorage.getItem("parser-sidebar-collapsed") === "true"
+  } catch {
+    savedCollapsed = false
+  }
+  state.sidebarCollapsed = savedCollapsed && window.innerWidth > 1100
+  applySidebarState()
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 1100 && state.sidebarCollapsed) {
+      state.sidebarCollapsed = false
+      applySidebarState()
+    }
+  })
+}
+
+function toggleSidebar() {
+  if (window.innerWidth <= 1100) return
+  state.sidebarCollapsed = !state.sidebarCollapsed
+  applySidebarState()
+  try {
+    localStorage.setItem("parser-sidebar-collapsed", String(state.sidebarCollapsed))
+  } catch { }
+}
+
+function applySidebarState() {
+  document.body.classList.toggle("sidebar-collapsed", !!state.sidebarCollapsed)
+  document.querySelectorAll(".nav-btn").forEach((button) => {
+    const fullLabel = button.dataset.fullLabel || button.textContent || ""
+    const shortLabel = button.dataset.shortLabel || fullLabel
+    button.textContent = state.sidebarCollapsed ? shortLabel : fullLabel
+    button.setAttribute("aria-label", fullLabel)
+    button.title = state.sidebarCollapsed ? fullLabel : ""
+  })
+}
+
+function initSettingsPanel() {
+  $("settingsPanel")?.classList.remove("hidden")
+}
+
+function toggleTheme() {
+  const isLight = document.body.dataset.theme === "light"
+  setTheme(isLight ? "dark" : "light")
 }
 
 function switchTab(name) {
@@ -156,10 +221,16 @@ function initAccentColor() {
 
 function setTheme(theme) {
   const nextTheme = theme === "light" ? "light" : "dark"
+  const targetTheme = nextTheme === "light" ? "dark" : "light"
   document.body.dataset.theme = nextTheme
 
   $("darkModeBtn")?.classList.toggle("active", nextTheme === "dark")
   $("lightModeBtn")?.classList.toggle("active", nextTheme === "light")
+  $("toggleThemeBtn")?.classList.toggle("is-light", targetTheme === "light")
+  $("toggleThemeBtn")?.setAttribute("aria-label", targetTheme === "light" ? "Aktifkan light mode" : "Aktifkan dark mode")
+  if ($("toggleThemeIcon")) {
+    $("toggleThemeIcon").className = `theme-icon ${targetTheme === "light" ? "sun-icon" : "moon-icon"}`
+  }
 
   try {
     localStorage.setItem("parser-theme", nextTheme)
