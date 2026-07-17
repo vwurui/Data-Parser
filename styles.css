@@ -178,6 +178,8 @@ body.sidebar-collapsed .app-shell {
   white-space: nowrap;
   font-size: 12px;
   font-weight: 800;
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(135deg, #f7e7a1 0%, #e4c35a 38%, #c89a2b 100%);
   color: #111111;
   text-shadow: 0 1px 0 rgba(255, 248, 220, 0.45);
@@ -186,6 +188,79 @@ body.sidebar-collapsed .app-shell {
   box-shadow:
     inset 0 1px 0 rgba(255, 250, 220, 0.7),
     0 8px 18px rgba(120, 88, 16, 0.28);
+}
+
+.brand-logo::before {
+  content: "";
+  position: absolute;
+  inset: -40% -70%;
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.14) 16%,
+      rgba(255, 255, 255, 0.92) 30%,
+      rgba(255, 255, 255, 0.22) 44%,
+      rgba(255, 255, 255, 0) 62%
+    );
+  transform: translateX(-45%) rotate(0deg);
+  animation: topjituShine 2.8s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(0.25px);
+}
+
+.brand-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 38%),
+    radial-gradient(circle at 82% 62%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%);
+  opacity: 0.66;
+  animation: topjituBreath 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes topjituShine {
+  0% {
+    transform: translateX(-55%) rotate(0deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(55%) rotate(0deg);
+    opacity: 0.82;
+  }
+  80% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateX(65%) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes topjituBreath {
+  0%,
+  100% {
+    opacity: 0.48;
+    filter: saturate(1) blur(0px);
+  }
+  50% {
+    opacity: 0.72;
+    filter: saturate(1.08) blur(0.2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo::before,
+  .brand-logo::after {
+    animation: none !important;
+  }
 }
 
 .sidebar-tools {
